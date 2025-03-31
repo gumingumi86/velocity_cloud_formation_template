@@ -49,55 +49,55 @@ Resources:
       SubnetId: !Ref MinecraftSubnet
       RouteTableId: !Ref MinecraftRouteTable
 
-  MinecraftProxyEC2:
-    Type: AWS::EC2::Instance
-    Properties:
-      InstanceType: t3.medium
-      ImageId: ami-0a332444d8ec3a4ab
-      KeyName: minecraft-key
-      SecurityGroups:
-        - Ref: MinecraftSecurityGroup
-      IamInstanceProfile: !Ref EC2InstanceProfile
-      SubnetId: !Ref MinecraftSubnet
-      BlockDeviceMappings:
-        - DeviceName: /dev/sda1
-          Ebs:
-            VolumeSize: 20
-            DeleteOnTermination: true
-      UserData:
-        Fn::Base64: |
-          #!/bin/bash
-          apt update && apt install -y openjdk-17-jre-headless wget
-          useradd -m minecraft
-          su - minecraft -c "mkdir -p ~/proxy && cd ~/proxy && wget wget https://versions.velocitypowered.com/download/3.4.0-SNAPSHOT"
-          echo "java -Xms512M -Xmx1G -jar velocity.jar" > /home/minecraft/proxy/start.sh
-          chmod +x /home/minecraft/proxy/start.sh
-          chown -R minecraft:minecraft /home/minecraft/proxy
-          echo "velocity setup complete."
+  # MinecraftProxyEC2:
+  #   Type: AWS::EC2::Instance
+  #   Properties:
+  #     InstanceType: t3.medium
+  #     ImageId: ami-0a332444d8ec3a4ab
+  #     KeyName: minecraft-key
+  #     SecurityGroupIds:
+  #       - !Ref MinecraftSecurityGroup
+  #     IamInstanceProfile: !Ref EC2InstanceProfile
+  #     SubnetId: !Ref MinecraftSubnet
+  #     BlockDeviceMappings:
+  #       - DeviceName: /dev/sda1
+  #         Ebs:
+  #           VolumeSize: 20
+  #           DeleteOnTermination: true
+  #     UserData:
+  #       Fn::Base64: |
+  #         #!/bin/bash
+  #         apt update && apt install -y openjdk-17-jre-headless wget
+  #         useradd -m minecraft
+  #         su - minecraft -c "mkdir -p ~/proxy && cd ~/proxy && wget wget https://versions.velocitypowered.com/download/3.4.0-SNAPSHOT"
+  #         echo "java -Xms512M -Xmx1G -jar velocity.jar" > /home/minecraft/proxy/start.sh
+  #         chmod +x /home/minecraft/proxy/start.sh
+  #         chown -R minecraft:minecraft /home/minecraft/proxy
+  #         echo "velocity setup complete."
 
-  MinecraftFabricLobbyEC2:
-    Type: AWS::EC2::Instance
-    Properties:
-      InstanceType: t3.medium
-      ImageId: ami-0a332444d8ec3a4ab
-      KeyName: minecraft-key
-      SecurityGroups:
-        - Ref: MinecraftSecurityGroup
-      IamInstanceProfile: !Ref EC2InstanceProfile
-      SubnetId: !Ref MinecraftSubnet
-      BlockDeviceMappings:
-        - DeviceName: /dev/sda1
-          Ebs:
-            VolumeSize: 20
-            DeleteOnTermination: true
-      UserData:
-        Fn::Base64: |
-          #!/bin/bash
-          apt update && apt install -y openjdk-17-jre-headless wget
-          useradd -m minecraft
-          su - minecraft -c "mkdir -p ~/lobby && cd ~/lobby && wget https://meta.fabricmc.net/v2/versions/loader/1.20.1/0.16.10/installer.jar"
-          su - minecraft -c "cd ~/lobby && java -jar installer.jar server -mcversion 1.20.1"
-          echo "Fabric Lobby Server setup complete."
+  # MinecraftFabricLobbyEC2:
+  #   Type: AWS::EC2::Instance
+  #   Properties:
+  #     InstanceType: t3.medium
+  #     ImageId: ami-0a332444d8ec3a4ab
+  #     KeyName: minecraft-key
+  #     SecurityGroupIds:
+  #       - !Ref MinecraftSecurityGroup
+  #     IamInstanceProfile: !Ref EC2InstanceProfile
+  #     SubnetId: !Ref MinecraftSubnet
+  #     BlockDeviceMappings:
+  #       - DeviceName: /dev/sda1
+  #         Ebs:
+  #           VolumeSize: 20
+  #           DeleteOnTermination: true
+  #     UserData:
+  #       Fn::Base64: |
+  #         #!/bin/bash
+  #         apt update && apt install -y openjdk-17-jre-headless wget
+  #         useradd -m minecraft
+  #         su - minecraft -c "mkdir -p ~/lobby && cd ~/lobby && wget https://meta.fabricmc.net/v2/versions/loader/1.20.1/0.16.10/installer.jar"
+  #         su - minecraft -c "cd ~/lobby && java -jar installer.jar server -mcversion 1.20.1"
+  #         echo "Fabric Lobby Server setup complete."
 
   MinecraftFabricSurvivalEC2:
     Type: AWS::EC2::Instance
@@ -105,8 +105,8 @@ Resources:
       InstanceType: t3.medium
       ImageId: ami-0a332444d8ec3a4ab
       KeyName: minecraft-key
-      SecurityGroups:
-        - Ref: MinecraftSecurityGroup
+      SecurityGroupIds:
+        - !Ref MinecraftSecurityGroup
       IamInstanceProfile: !Ref EC2InstanceProfile
       SubnetId: !Ref MinecraftSubnet
       BlockDeviceMappings:
